@@ -10,7 +10,7 @@
 # 4. Push the new tag to the remote
 
 # Usage:
-# script/release
+# script/release.sh
 
 # COLORS
 OFF='\033[0m'

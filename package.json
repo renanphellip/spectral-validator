@@ -1,16 +1,16 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
-  "version": "0.0.0",
-  "author": "",
+  "name": "spectral-validator-action",
+  "description": "Spectral Validator Action",
+  "version": "0.1.0",
+  "author": "Renan Morais <renan.ps.morais@gmail.com>",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/renanphellip/spectral-validator?tab=readme-ov-file#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/renanphellip/spectral-validator.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/renanphellip/spectral-validator/issues"
   },
   "keywords": [
     "actions",
