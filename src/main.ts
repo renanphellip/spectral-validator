@@ -1,26 +1,36 @@
 import * as core from '@actions/core'
-import { wait } from './wait'
+import spectralValidate from './validator'
+import { readFileAndParse, readRulesetAndParse, createFile } from './file'
 
-/**
- * The main function for the action.
- * @returns {Promise<void>} Resolves when the action is complete.
- */
 export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
+    const rulesetPath: string = core.getInput('ruleset-path')
+    const filePath: string = core.getInput('file-path')
+    const outputPath: string = core.getInput('output-path')
 
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
+    core.debug('inputs:')
+    core.debug(
+      JSON.stringify(
+        {
+          rulesetPath,
+          filePath,
+          outputPath
+        },
+        null,
+        4
+      )
+    )
 
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const document = readFileAndParse(filePath)
+    const ruleset = await readRulesetAndParse(rulesetPath)
+    const result = await spectralValidate(ruleset, document)
+    const output = JSON.stringify(result)
 
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
+    createFile(outputPath, output)
+    core.setOutput('output', output)
+
+    if (result.length > 0) throw new Error(output)
   } catch (error) {
-    // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
   }
 }
